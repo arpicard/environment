@@ -2,7 +2,7 @@
 This repository allows the creation of a Docker environment that allow you to work locally.
 
 ## Architecture
-* `web`: [PHP 5.6 version](https://github.com/mcoemakinafr/environment/blob/master/web/Dockerfile) with Apache.
+* `web`: [PHP 7.1 version](https://github.com/mcoemakinafr/environment/blob/master/web/Dockerfile) with Apache.
 * `mysql`: [percona:5.6](https://hub.docker.com/_/percona/) image.
 * `maildev`: [djfarrelly/maildev:latest](https://hub.docker.com/r/djfarrelly/maildev/) image.
 

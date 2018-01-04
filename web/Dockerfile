@@ -1,4 +1,4 @@
-FROM php:5.6-apache
+FROM php:7.1-apache
 
 MAINTAINER Matthieu CONTET <matt.contet@icloud.com>
 LABEL maintainer="Matthieu CONTET <matt.contet@icloud.com>"
@@ -59,6 +59,7 @@ RUN \
     nvm use node && \
     npm install -g grunt-cli
 
+# Install and activate SSL
 RUN \
     a2enmod ssl; \
     mkdir -p /etc/ssl/private/ /etc/ssl/certs/ && \
