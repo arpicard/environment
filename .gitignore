@@ -1,0 +1,4 @@
+/web/vhosts/*
+!/web/vhosts/environment.conf
+docker-env
+bash_aliases

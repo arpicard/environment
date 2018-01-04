@@ -1,0 +1,33 @@
+version: "3"
+
+services:
+  web:
+    build: web
+    env_file: docker-env
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "~/www:/var/www/html:rw,delegated"
+    tty: true
+
+  mysql:
+    build: mysql
+    env_file: docker-env
+    ports:
+      - "3306:3306"
+    volumes:
+      - "mysql:/var/lib/mysql"
+    tty: true
+
+  maildev:
+    image: djfarrelly/maildev
+    env_file: docker-env
+    depends_on:
+      - web
+    ports:
+      - "1088:80"
+    tty: true
+
+volumes:
+  mysql: {}
