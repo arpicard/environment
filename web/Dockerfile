@@ -19,7 +19,6 @@ RUN \
         libxml2-dev \
         libxml2-utils \
         mailutils \
-        phing \
         ssh-client \
         ssmtp \
         mysql-client \
