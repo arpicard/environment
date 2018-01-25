@@ -4,7 +4,7 @@ export CLICOLOR=1
 
 # SYMFONY
 alias sfapp='php app/console'
-alias sfbin='php app/console'
+alias sfbin='php bin/console'
 alias schema-dump='doctrine:schema:update --dump-sql'
 alias schema-force='doctrine:schema:update --force'
 alias assets-install='assets:install --symlink'
