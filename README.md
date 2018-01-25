@@ -69,7 +69,8 @@ The container prefix depends on your directory name.
         - `docker-start [$1]`   : starts your container(s). `$1` is optional
         - `docker-stop [$1]`    : stops your container(s). `$1` is optional
     - _Symfony_ : 
-        - `sf` alias for `php app/console`
+        - `sfapp` alias for `php app/console`
+        - `sfbin` alias for `php bin/console`
         - `schema-dump`     : dump the SQL needed to update the database schema to match the current mapping metadata.
         - `schema-force`    : execute the SQL needed to update the database schema to match the current mapping metadata.
         - `assets-install`  : install bundles web assets under a public web directory in symlink
