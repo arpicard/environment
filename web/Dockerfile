@@ -1,7 +1,7 @@
 FROM php:5.6-apache
 
-MAINTAINER Matthieu CONTET <matt.contet@icloud.com>
-LABEL maintainer="Matthieu CONTET <matt.contet@icloud.com>"
+MAINTAINER Matthieu CONTET <matt.tete.nock@gmail.com>
+LABEL maintainer="Matthieu CONTET <matt.tete.nock@gmail.com>"
 
 # Install basic requirements
 RUN \
