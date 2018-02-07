@@ -26,7 +26,8 @@ RUN \
         jpegoptim \
         nodejs \
         npm \
-        uglifyjs && \
+        uglifyjs \
+        openjdk-7-jdk && \
     docker-php-ext-install -j$(nproc) \
         bcmath \
         gd \
@@ -48,7 +49,7 @@ RUN \
     curl -sS https://getcomposer.org/installer | php && \
     mv composer.phar /usr/local/bin/composer
 
-# Install grunt-cli globally
+# Install gulp-cli globally
 RUN \
     curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash && \
     export NVM_DIR="$HOME/.nvm" && \
@@ -56,7 +57,7 @@ RUN \
     [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" && \
     nvm install node && \
     nvm use node && \
-    npm install -g grunt-cli
+    npm install -g gulp-cli
 
 # Install and activate SSL
 RUN \
@@ -79,6 +80,8 @@ COPY custom.ini /usr/local/etc/php/conf.d/
 
 ADD bash_aliases /root/.bashrc
 ENV TERM xterm
+
+ENV JAVA_HOME /usr/lib/jvm/java-7-openjdk-amd64
 
 # Install custom entrypoint
 COPY ./entrypoint.sh /usr/local/bin/docker-custom-entrypoint
