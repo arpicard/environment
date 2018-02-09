@@ -23,6 +23,8 @@ RUN \
         ssmtp \
         mysql-client \
         openssl \
+        cron \
+        nano \
         jpegoptim \
         nodejs \
         npm \
