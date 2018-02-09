@@ -85,6 +85,9 @@ ENV TERM xterm
 
 ENV JAVA_HOME /usr/lib/jvm/java-7-openjdk-amd64
 
+# Add crontab file in the cron directory
+COPY crontab /tmp/crontab
+
 # Install custom entrypoint
 COPY ./entrypoint.sh /usr/local/bin/docker-custom-entrypoint
 RUN chmod 777 /usr/local/bin/docker-custom-entrypoint

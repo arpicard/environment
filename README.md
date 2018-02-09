@@ -41,6 +41,12 @@ $ nano web/bash_aliases
 ```
 > Let's see in the [tips section](#tips) all what you can do
 
+### Define the crontab
+```bash
+$ cp crontab.dist crontab
+$ nano crontab
+```
+
 ### Build the environment
 ```bash
 $ docker-compose up -d
