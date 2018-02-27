@@ -2,12 +2,12 @@
 This repository allows the creation of a Docker environment that allow you to work locally.
 
 ## Architecture
-* `web`: [PHP 5.6 version](https://github.com/mcoemakinafr/environment/blob/master/web/Dockerfile) with Apache.
+* `web`: [PHP 5.6 version](https://github.com/mattcontet/environment/blob/master/web/Dockerfile) with Apache.
 * `mysql`: [percona:5.6](https://hub.docker.com/_/percona/) image.
 * `maildev`: [djfarrelly/maildev:latest](https://hub.docker.com/r/djfarrelly/maildev/) image.
 
 ## Additional Features
-* **HTTPS** : the `vX.x.1` tag assumes the support of https locally, on the two version of PHP (`5.6` and `7.1`). Please check the [tips section](#tips) to know how to use it
+* **HTTPS** : assumes the support of https locally, on the two version of PHP (`5.6` and `7.1`). Please check the [tips section](#tips) to know how to use it
 
 ### Apache/PHP
 The `web` container has a mount point used to share source files.
@@ -24,9 +24,9 @@ Otherwise, you should have a look to [Install Docker Engine](https://docs.docker
 
 ### Clone the repository
 ```bash
-$ git clone git@github.com:mcoemakinafr/environment.git environment
+$ git clone git@github.com:mattcontet/environment.git environment
 ```
-It's also possible to download it as a [ZIP archive](https://github.com/mcoemakinafr/environment/archive/master.zip).
+It's also possible to download it as a [ZIP archive](https://github.com/mattcontet/environment/archive/master.zip).
 
 ### Define the environment variables
 ```bash
@@ -40,6 +40,12 @@ $ cp web/bash_aliases.dist web/bash_aliases
 $ nano web/bash_aliases
 ```
 > Let's see in the [tips section](#tips) all what you can do
+
+### Define the crontab
+```bash
+$ cp web/crontab.dist web/crontab
+$ nano web/crontab
+```
 
 ### Build the environment
 ```bash
@@ -59,9 +65,15 @@ Note: You will see something slightly different if you do not clone the reposito
 The container prefix depends on your directory name.
 
 ## Tips
-1. You can add custom virtual hosts: all `./web/vhosts/*.conf` files are copied in the Apache directory during the image build process.
-2. The HTTPS can be used easily. Check `./web/vhosts/environment.conf` as a model to get it on all your websites. You don't need to change the cert and key files.
-3. **Bash aliases** :
+1. **General informations** :
+    - To plug your database to your application (if you didn't change the information in `docker-env` file) :
+        - host : `'mysql'`
+        - database : `yourdatabasename`
+        - user : `'root'`
+        - pass : `null`
+2. You can add custom virtual hosts: all `./web/vhosts/*.conf` files are copied in the Apache directory during the image build process.
+3. The HTTPS can be used easily. Check `./web/vhosts/environment.conf` as a model to get it on all your websites. You don't need to change the cert and key files.
+4. **Bash aliases** :
     - _Docker_ :
         - `docker-go $1`        : connects to your container `environment_$1_1`
         - `docker-logs $1`      : displays the logs of your container `environment_$1_1`

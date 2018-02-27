@@ -2,3 +2,4 @@
 /web/bash_aliases
 !/web/vhosts/environment.conf
 docker-env
+/web/crontab

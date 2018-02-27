@@ -1,7 +1,7 @@
 FROM php:5.6-apache
 
-MAINTAINER Matthieu CONTET <matt.tete.nock@gmail.com>
-LABEL maintainer="Matthieu CONTET <matt.tete.nock@gmail.com>"
+MAINTAINER Matthieu CONTET <matt.contet@icloud.com>
+LABEL maintainer="Matthieu CONTET <matt.contet@icloud.com>"
 
 # Install basic requirements
 RUN \
@@ -23,6 +23,8 @@ RUN \
         ssmtp \
         mysql-client \
         openssl \
+        cron \
+        nano \
         jpegoptim \
         nodejs \
         npm \
@@ -30,19 +32,21 @@ RUN \
         openjdk-7-jdk && \
     docker-php-ext-install -j$(nproc) \
         bcmath \
-        gd \
         hash \
         intl \
         mcrypt \
         opcache \
         pdo_mysql \
         soap \
+        sockets \
         zip \
-    && yes | pecl install xdebug \
+    && yes | pecl install xdebug-2.5.3 \
     && docker-php-ext-enable xdebug \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
-    && perl -pi -e "s/mailhub=mail/mailhub=maildev/" /etc/ssmtp/ssmtp.conf
+    && perl -pi -e "s/mailhub=mail/mailhub=maildev/" /etc/ssmtp/ssmtp.conf \
+    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+    && docker-php-ext-install -j$(nproc) gd
 
 # Install Composer globally
 RUN \
@@ -82,6 +86,9 @@ ADD bash_aliases /root/.bashrc
 ENV TERM xterm
 
 ENV JAVA_HOME /usr/lib/jvm/java-7-openjdk-amd64
+
+# Add crontab file in the cron directory
+COPY crontab /tmp/crontab
 
 # Install custom entrypoint
 COPY ./entrypoint.sh /usr/local/bin/docker-custom-entrypoint
