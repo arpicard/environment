@@ -21,6 +21,7 @@ RUN \
         mailutils \
         ssh-client \
         ssmtp \
+        make \
         mysql-client \
         openssl \
         cron \
