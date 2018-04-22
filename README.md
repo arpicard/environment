@@ -4,6 +4,7 @@ This repository allows the creation of a Docker environment that allow you to wo
 ## Architecture
 * `web`: [PHP 7.1 version](https://github.com/mattcontet/environment/blob/master/web/Dockerfile) with Apache.
 * `mysql`: [percona:5.6](https://hub.docker.com/_/percona/) image.
+* `redis`: [redis:latest](https://hub.docker.com/_/redis/) image.
 * `maildev`: [djfarrelly/maildev:latest](https://hub.docker.com/r/djfarrelly/maildev/) image.
 
 ## Additional Features
@@ -59,6 +60,7 @@ $ docker-compose ps
 ------------------------------------------------------------------------------------------------------------
 environment_maildev_1     bin/maildev --web 80 --smtp 25   Up      25/tcp, 0.0.0.0:1080->80/tcp
 environment_mysql_1       docker-entrypoint.sh mysqld      Up      0.0.0.0:3306->3306/tcp
+environment_redis_1       docker-entrypoint.sh redis ...   Up      0.0.0.0:6379->6379/tcp
 environment_web_1         docker-custom-entrypoint         Up      0.0.0.0:443->443/tcp, 0.0.0.0:80->80/tcp
 ```
 Note: You will see something slightly different if you do not clone the repository in a `environment` directory.
@@ -77,7 +79,8 @@ The container prefix depends on your directory name.
     - _Docker_ :
         - `docker-go $1`        : connects to your container `environment_$1_1`
         - `docker-logs $1`      : displays the logs of your container `environment_$1_1`
-        - `docker-rebuild [$1]` : combined of `build` and `up -d` commands from `docker-compose`. `$1` is optional
+        - `docker-rebuild [$1]` : combined of `build --no-cache` and `up -d` commands from `docker-compose`. `$1` is optional
+        - `docker-up [$1]`      : up your container(s). `$1` is optional
         - `docker-start [$1]`   : starts your container(s). `$1` is optional
         - `docker-stop [$1]`    : stops your container(s). `$1` is optional
     - _Symfony_ : 
@@ -92,10 +95,10 @@ The container prefix depends on your directory name.
         - `gosites $1`      : go to `~/www/$1` the default websites folder. `$1` is optional
 5. **PHP CS Fixer** :
     - Use it via the shell :
-        - You have a script in `Tools/PHP CS Fixer/script_php_cs.sh`
+        - You have a script in `Tools/PHP_CS_Fixer/script_php_cs.sh`
         - It can take as argument any relative or full path in the volume of the web container.
     - Use it with PHPStorm : 
-        - There also is a tools file in `Tools/PHP CS Fixer/PHP CS Fixer.xml`.
+        - There also is a tools file in `Tools/PHP_CS_Fixer/PHP_CS_Fixer.xml`.
         - It can be added as an external tool which allow you to use it on any files of a project.
         - Just place the file in the folder :
             - For Unix : `~/.<PRODUCT><VERSION>/tools`
