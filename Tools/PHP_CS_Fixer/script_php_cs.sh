@@ -11,4 +11,4 @@ fi
 var=$(echo $path | sed 's/.*www\///')
 
 # Launch php cs fixer
-docker exec docker-apache_web_1 php-cs-fixer fix /var/www/html/$var --verbose
+docker-compose exec web php-cs-fixer fix /var/www/html/$var --verbose
