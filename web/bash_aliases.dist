@@ -3,43 +3,30 @@ export LS_COLORS='rs=0:di=01;34:ln=01;36:mh=00:pi=40;33'
 export CLICOLOR=1
 
 # SYMFONY
-alias sfapp='php app/console'
 alias sfbin='php bin/console'
-alias schema-dump='doctrine:schema:update --dump-sql'
-alias schema-force='doctrine:schema:update --force'
-alias assets-install='assets:install --symlink'
 
-# DOCKER
-docker-go() {
-    docker-compose exec $1 bash
+sf-clear-cache() {
+    sfbin cache:clear --env=dev  -v
+    sfbin cache:clear --env=prod -v
 }
-docker-logs() {
-    docker-compose logs $1
+
+sf-schema-dump() {
+     sfbin doctrine:schema:update --dump-sql
 }
-docker-rebuild() {
-    echo -------------------------------------------------- docker-compose build --------------------------------------------------
-    docker-compose build --no-cache $1
-    echo -------------------------------------------------- docker-compose up -d --------------------------------------------------
-    docker-compose up -d $1
-    echo -------------------------------------------------- docker-compose ps -----------------------------------------------------
-    docker-compose ps
+
+sf-schema-force() {
+     sfbin doctrine:schema:update --force
 }
-docker-up() {
-    docker-compose up -d $1
+
+sf-fixtures() {
+    sfbin doctrine:fixtures:load --append
 }
-docker-start() {
-    docker-compose start $1
-}
-docker-stop() {
-    docker-compose stop $1
+
+sf-assets() {
+	sfbin assets:install --symlink -v
 }
 
 # OTHERS
 alias ll='ls -alGFh --color=always'
-alias goenvironment='cd ~/environment'
-
-gosites() {
-    cd ~/www/$1
-}
 
 cd /var/www/html
