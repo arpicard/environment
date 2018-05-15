@@ -4,39 +4,29 @@ export CLICOLOR=1
 
 # SYMFONY
 alias sfapp='php app/console'
-alias sfbin='php app/console'
-alias schema-dump='doctrine:schema:update --dump-sql'
-alias schema-force='doctrine:schema:update --force'
-alias assets-install='assets:install --symlink'
 
-# DOCKER
-docker-go() {
-    docker exec -it "$(basename $PWD)_$1_1" /bin/bash
+sf-clear-cache() {
+    sfapp cache:clear --env=dev  -v
+    sfapp cache:clear --env=prod -v
 }
-docker-logs() {
-    docker-compose logs $1
+
+sf-schema-dump() {
+     sfapp doctrine:schema:update --dump-sql
 }
-docker-rebuild() {
-    echo -------------------------------------------------- docker-compose build --------------------------------------------------
-    docker-compose build $1
-    echo -------------------------------------------------- docker-compose up -d --------------------------------------------------
-    docker-compose up -d $1
-    echo -------------------------------------------------- docker-compose ps -----------------------------------------------------
-    docker-compose ps
+
+sf-schema-force() {
+     sfapp doctrine:schema:update --force
 }
-docker-start() {
-    docker-compose start $1
+
+sf-fixtures() {
+    sfapp doctrine:fixtures:load --append
 }
-docker-stop() {
-    docker-compose stop $1
+
+sf-assets() {
+	sfapp assets:install --symlink -v
 }
 
 # OTHERS
 alias ll='ls -alGFh --color=always'
-alias goenvironment='cd ~/environment'
-
-gosites() {
-    cd ~/www/$1
-}
 
 cd /var/www/html

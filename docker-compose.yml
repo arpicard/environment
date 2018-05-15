@@ -8,7 +8,9 @@ services:
       - "80:80"
       - "443:443"
     volumes:
+      - ./web/vhosts:/etc/apache2/sites-enabled/:ro
       - "~/www:/var/www/html:rw,delegated"
+      - "~/logs/apache:/var/log/apache2:rw,delegated"
     tty: true
 
   mysql:
@@ -18,6 +20,15 @@ services:
       - "3306:3306"
     volumes:
       - "mysql:/var/lib/mysql"
+    tty: true
+
+  redis:
+    build: redis
+    env_file: docker-env
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis:/data
     tty: true
 
   maildev:
@@ -31,3 +42,4 @@ services:
 
 volumes:
   mysql: {}
+  redis: {}
