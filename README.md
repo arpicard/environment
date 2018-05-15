@@ -1,5 +1,5 @@
 # Docker Environment
-This repository allows the creation of a Docker environment that allow you to work locally.
+This repository allows the creation of a Docker environment to work locally.
 
 ## Architecture
 * `web`: [PHP 7.1 version](https://github.com/mattcontet/environment/blob/master/web/Dockerfile) with Apache.
@@ -23,34 +23,29 @@ The `./mysql/custom.cnf` file is used to customize the MySQL configuration durin
 This process assumes that [Docker Engine](https://www.docker.com/docker-engine) and [Docker Compose](https://docs.docker.com/compose/) are installed.
 Otherwise, you should have a look to [Install Docker Engine](https://docs.docker.com/engine/installation/) before proceeding further.
 
+:bangbang: You also need the `make` linux package.
+
 ### Clone the repository
 ```bash
 $ git clone git@github.com:mattcontet/environment.git environment
 ```
 It's also possible to download it as a [ZIP archive](https://github.com/mattcontet/environment/archive/master.zip).
 
-### Define the environment variables
+### Set up the environment
 ```bash
-$ cp docker-env.dist docker-env
-$ nano docker-env
+$ make setup
 ```
-
-### Get the bash aliases toolkit
+#### OR
 ```bash
-$ cp web/bash_aliases.dist web/bash_aliases
-$ nano web/bash_aliases
+$ make env
+$ make aliases
+$ make cron
 ```
 > Let's see in the [tips section](#tips) all what you can do
 
-### Define the crontab
-```bash
-$ cp web/crontab.dist web/crontab
-$ nano web/crontab
-```
-
 ### Build the environment
 ```bash
-$ docker-compose up -d
+$ make install
 ```
 
 ### Check the containers
@@ -67,33 +62,35 @@ Note: You will see something slightly different if you do not clone the reposito
 The container prefix depends on your directory name.
 
 ## Tips
-1. **General informations** :
+1. **Getting started** :
+Launch the command below and see all what you can do :
+```bash
+$ make help
+```
+
+2. **General informations** :
     - To plug your database to your application (if you didn't change the information in `docker-env` file) :
         - host : `'mysql'`
         - database : `yourdatabasename`
         - user : `'root'`
         - pass : `null`
-2. You can add custom virtual hosts: all `./web/vhosts/*.conf` files are copied in the Apache directory during the image build process.
-3. The HTTPS can be used easily. Check `./web/vhosts/environment.conf` as a model to get it on all your websites. You don't need to change the cert and key files.
-4. **Bash aliases** :
-    - _Docker_ :
-        - `docker-go $1`        : connects to your container `environment_$1_1`
-        - `docker-logs $1`      : displays the logs of your container `environment_$1_1`
-        - `docker-rebuild [$1]` : combined of `build --no-cache` and `up -d` commands from `docker-compose`. `$1` is optional
-        - `docker-up [$1]`      : up your container(s). `$1` is optional
-        - `docker-start [$1]`   : starts your container(s). `$1` is optional
-        - `docker-stop [$1]`    : stops your container(s). `$1` is optional
+
+3. You can add custom virtual hosts: all `./web/vhosts/*.conf` files are copied in the Apache directory during the image build process.
+
+4. The HTTPS can be used easily. Check `./web/vhosts/environment.conf` as a model to get it on all your websites. You don't need to change the cert and key files.
+
+5. **Aliases** :
     - _Symfony_ : 
-        - `sfapp` alias for `php app/console`
         - `sfbin` alias for `php bin/console`
-        - `schema-dump`     : dump the SQL needed to update the database schema to match the current mapping metadata.
-        - `schema-force`    : execute the SQL needed to update the database schema to match the current mapping metadata.
-        - `assets-install`  : install bundles web assets under a public web directory in symlink
+        - `sf-clear-cache`  : `>2.8` clear cache for all environments
+        - `sf-schema-dump`  : dump the SQL needed to update the database schema to match the current mapping metadata.
+        - `sf-schema-force` : execute the SQL needed to update the database schema to match the current mapping metadata.
+        - `sf-assets`       : install bundles web assets under a public web directory in symlink
+        - `sf-fixtures`     : launch the doctrine fixtures
     - _Others_ :
         - `ll`              : list the folder in a nice view
-        - `goenvironment`   : go to your docker folder
-        - `gosites $1`      : go to `~/www/$1` the default websites folder. `$1` is optional
-5. **PHP CS Fixer** :
+
+6. **PHP CS Fixer** :
     - Use it via the shell :
         - You have a script in `Tools/PHP_CS_Fixer/script_php_cs.sh`
         - It can take as argument any relative or full path in the volume of the web container.
