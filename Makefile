@@ -28,12 +28,21 @@ aliases: ## Configure aliases
     fi
 
 cron: ## Configure the crontab file
-	@if [[ ! -f docker-env ]]; then \
+	@if [[ ! -f web/crontab ]]; then \
 		cp web/crontab.dist web/crontab; \
 		nano web/crontab; \
 		echo $(VERT)crontab file configured!$(NORMAL); \
 	else \
 		echo $(VERT)crontab file already configured$(NORMAL); \
+	fi
+
+ini: ## Configure the custom.ini file
+	@if [[ ! -f web/custom.ini ]]; then \
+		cp web/custom.ini.dist web/custom.ini; \
+		nano web/custom.ini; \
+		echo $(VERT)custom.ini file configured!$(NORMAL); \
+	else \
+		echo $(VERT)custom.ini file already configured$(NORMAL); \
 	fi
 
 env: ## Configure the env file
@@ -46,9 +55,9 @@ env: ## Configure the env file
 	fi
 
 setup: ## Setup the environment
-setup: aliases cron env
+setup: aliases cron ini env
 
-.PHONY: aliases cron env setup
+.PHONY: aliases cron ini env setup
 
 ##===============================================================
 ## Installation & Launch
@@ -90,7 +99,7 @@ go-web: ## Open a terminal in the "web" container
 go-mysql: ## Open a terminal in the "mysql" container
 	$(DOCKER_COMPOSE) exec mysql sh -c "/bin/bash"
 
-go-redis: ## Open a terminal in the "mysql" container
+go-redis: ## Open a terminal in the "redis" container
 	$(DOCKER_COMPOSE) exec redis sh -c "/bin/bash"
 
 .PHONY: go-web go-mysql go-redis
@@ -114,10 +123,10 @@ ps: ## List all containers managed by the environment
 stats: ## Print real-time statistics about containers ressources usage
 	docker stats $(docker ps --format={{.Names}})
 
-ssh: ## Copy all SSH keys from the host to the "php" container
-	$(DOCKER_COMPOSE) exec -T php sh -c "mkdir -p /root/.ssh"
-	$(DOCKER) cp $(HOME)/.ssh $(shell docker-compose ps -q php):/root/
-	$(DOCKER_COMPOSE) exec -T php sh -c "echo 'eval \$$(ssh-agent) && ssh-add' >> /root/.bashrc"
+ssh: ## Copy all SSH keys from the host to the "web" container
+	$(DOCKER_COMPOSE) exec -T web sh -c "mkdir -p /root/.ssh"
+	$(DOCKER) cp $(HOME)/.ssh $(shell docker-compose ps -q web):/root/
+	$(DOCKER_COMPOSE) exec -T web sh -c "echo 'eval \$$(ssh-agent) && ssh-add' >> /root/.bashrc"
 
 .PHONY: cache logs logs-full ps stats ssh
 
