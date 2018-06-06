@@ -5,35 +5,36 @@ LABEL maintainer="Matthieu CONTET <matt.contet@icloud.com>"
 # Install basic requirements
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
+        apt-transport-https \
         autoconf \
+        bzip2 \
+        cron \
         git \
+        gnupg \
+        jpegoptim \
         jq \
+        libcurl4-openssl-dev \
         libicu-dev \
         libfreetype6-dev \
+        libgpgme11-dev \
         libjpeg-dev \
         libmcrypt-dev \
         libpng-dev \
         libssl-dev \
         libxml2-dev \
         libxml2-utils \
+        libxslt-dev \
         mailutils \
-        ssh-client \
-        ssmtp \
-        make \
         mysql-client \
-        openssl \
-        cron \
         nano \
-        jpegoptim \
-        nodejs \
-        npm \
-        uglifyjs \
-        openjdk-7-jdk && \
+        openssl \
+        ssh-client \
+        ssmtp && \
     docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ && \
     docker-php-ext-install -j$(nproc) \
-        gd \
         bcmath \
         calendar \
+        gd \
         hash \
         intl \
         mcrypt \
@@ -41,10 +42,14 @@ RUN apt-get update && \
         pdo_mysql \
         soap \
         sockets \
-        zip \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* \
-    && perl -pi -e "s/mailhub=mail/mailhub=maildev/" /etc/ssmtp/ssmtp.conf
+        zip && \
+    apt-get clean && \
+    perl -pi -e "s/mailhub=mail/mailhub=maildev/" /etc/ssmtp/ssmtp.conf && \
+    usermod -u 1000 www-data
+
+# Install GnuPG
+RUN pecl install gnupg && \
+    docker-php-ext-enable gnupg
 
 # Install Redis
 RUN pecl install redis && \
@@ -62,15 +67,6 @@ RUN chmod a+x /usr/local/bin/php-cs-fixer
 RUN curl -sS https://getcomposer.org/installer | php && \
     mv composer.phar /usr/local/bin/composer
 
-# Install gulp-cli globally
-RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash && \
-    export NVM_DIR="$HOME/.nvm" && \
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && \
-    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" && \
-    nvm install node && \
-    nvm use node && \
-    npm install -g gulp-cli
-
 # Install and activate SSL
 RUN a2enmod ssl; \
     mkdir -p /etc/ssl/private/ /etc/ssl/certs/ && \
@@ -82,13 +78,20 @@ RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf && \
     a2enmod headers rewrite && \
     ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime
 
+# Install yarn
+RUN curl -sS https://deb.nodesource.com/setup_10.x | bash && \
+    apt-get install -y --no-install-recommends nodejs && \
+    npm install -g grunt-cli && \
+	curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
+    echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
+    apt-get update && apt-get install -y yarn && \
+    rm -rf /var/lib/apt/lists/*
+
 # Install custom PHP configuration
 COPY custom.ini /usr/local/etc/php/conf.d/
 
 ADD bash_aliases /root/.bashrc
 ENV TERM xterm
-
-ENV JAVA_HOME /usr/lib/jvm/java-7-openjdk-amd64
 
 # Add crontab file in the cron directory
 COPY crontab /tmp/crontab

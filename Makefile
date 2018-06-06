@@ -64,7 +64,7 @@ setup: aliases cron ini env
 ##===============================================================
 
 build: ## Build the environment
-	$(DOCKER_COMPOSE) pull --parallel --ignore-pull-failures
+	$(DOCKER_COMPOSE) pull --ignore-pull-failures
 	$(DOCKER_COMPOSE) build --pull
 
 start: ## Start the environment
@@ -72,7 +72,7 @@ start: ## Start the environment
 		echo 'The default configuration has been applied because the "docker-env" file was not configured.'; \
 		cp docker-env.dist docker-env; \
 	fi
-	$(DOCKER_COMPOSE) up -d --remove-orphans --no-recreate
+	$(DOCKER_COMPOSE) up -d --remove-orphans
 
 stop: ## Stop the environment
 	$(DOCKER_COMPOSE) stop
