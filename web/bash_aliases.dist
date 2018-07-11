@@ -29,4 +29,6 @@ sf-assets() {
 # OTHERS
 alias ll='ls -alGFh --color=always'
 
+eval $(ssh-agent) && ssh-add
+
 cd /var/www/html

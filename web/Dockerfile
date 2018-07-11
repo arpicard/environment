@@ -1,4 +1,4 @@
-FROM php:7.1-apache
+FROM php:7.2-apache
 
 LABEL maintainer="Matthieu CONTET <matt.contet@icloud.com>"
 
@@ -37,7 +37,7 @@ RUN apt-get update && \
         gd \
         hash \
         intl \
-        mcrypt \
+        mysqli \
         opcache \
         pdo_mysql \
         soap \
@@ -66,6 +66,9 @@ RUN chmod a+x /usr/local/bin/php-cs-fixer
 # Install Composer globally
 RUN curl -sS https://getcomposer.org/installer | php && \
     mv composer.phar /usr/local/bin/composer
+
+# Install Drush globally
+RUN composer global require drush/drush
 
 # Install and activate SSL
 RUN a2enmod ssl; \

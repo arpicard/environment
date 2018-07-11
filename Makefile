@@ -81,7 +81,7 @@ restart: ## Restart the environment
 restart: stop start
 
 install: ## Install the environment
-install: build start
+install: build start ssh
 
 uninstall: ## Uninstall the environment
 	$(DOCKER_COMPOSE) kill
@@ -126,7 +126,6 @@ stats: ## Print real-time statistics about containers ressources usage
 ssh: ## Copy all SSH keys from the host to the "web" container
 	$(DOCKER_COMPOSE) exec -T web sh -c "mkdir -p /root/.ssh"
 	$(DOCKER) cp $(HOME)/.ssh $(shell docker-compose ps -q web):/root/
-	$(DOCKER_COMPOSE) exec -T web sh -c "echo 'eval \$$(ssh-agent) && ssh-add' >> /root/.bashrc"
 
 .PHONY: cache logs logs-full ps stats ssh
 
