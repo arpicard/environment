@@ -1,14 +1,16 @@
 # Docker Environment
 This repository allows the creation of a Docker environment to work locally.
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+
 ## Architecture
-* `web`: [PHP 7.1 version](https://github.com/mattcontet/environment/blob/master/web/Dockerfile) with Apache.
+* `web`: [PHP 7.2 version](https://github.com/mattcontet/environment/blob/master/web/Dockerfile) with Apache.
 * `mysql`: [percona:5.6](https://hub.docker.com/_/percona/) image.
 * `redis`: [redis:latest](https://hub.docker.com/_/redis/) image.
 * `maildev`: [djfarrelly/maildev:latest](https://hub.docker.com/r/djfarrelly/maildev/) image.
 
 ## Additional Features
-* **HTTPS** : assumes the support of https locally, on the two version of PHP (`5.6` and `7.1`). Please check the [tips section](#tips) to know how to use it
+* **HTTPS** : assumes the support of https locally. Please check the [tips section](#tips) to know how to use it
 
 ### Apache/PHP
 The `web` container has a mount point used to share source files.
