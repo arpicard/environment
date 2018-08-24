@@ -73,6 +73,7 @@ start: ## Start the environment
 		cp docker-env.dist docker-env; \
 	fi
 	$(DOCKER_COMPOSE) up -d --remove-orphans
+	$(DOCKER_COMPOSE) ps
 
 stop: ## Stop the environment
 	$(DOCKER_COMPOSE) stop
