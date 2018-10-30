@@ -1,6 +1,6 @@
 /web/vhosts/*
 /web/bash_aliases
-/web/custom.ini
+/web/x-custom.ini
 !/web/vhosts/environment.conf
 docker-env
 /web/crontab

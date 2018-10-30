@@ -31,6 +31,7 @@ RUN apt-get update && \
         ssh-client \
         ssmtp && \
     docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ && \
+    curl -sS -o /tmp/icu.tar.gz -L http://download.icu-project.org/files/icu4c/62.1/icu4c-62_1-src.tgz && tar -zxf /tmp/icu.tar.gz -C /tmp && cd /tmp/icu/source && ./configure --prefix=/usr/local && make && make install && \
     docker-php-ext-install -j$(nproc) \
         bcmath \
         calendar \
@@ -91,7 +92,7 @@ RUN curl -sS https://deb.nodesource.com/setup_10.x | bash && \
     rm -rf /var/lib/apt/lists/*
 
 # Install custom PHP configuration
-COPY custom.ini /usr/local/etc/php/conf.d/
+COPY x-custom.ini /usr/local/etc/php/conf.d/
 
 ADD bash_aliases /root/.bashrc
 ENV TERM xterm

@@ -18,7 +18,7 @@ session.auto_start = 0
 opcache.enable_cli = 1
 opcache.enable_file_override = 1
 opcache.error_log = "/var/log/apache2/opcache.log"
-opcache.fast_shutdown = 1
+opcache.fast_shutdown = 0
 opcache.force_restart_timeout = 600
 opcache.interned_strings_buffer = 32
 opcache.load_comments = 1
@@ -31,6 +31,8 @@ opcache.revalidate_freq = 0
 opcache.validate_timestamps = 1
 
 [xdebug]
+xdebug.show_exception_trace = off
+xdebug.scream = off
 xdebug.idekey = PHPSTORM
 xdebug.default_enable = 0
 xdebug.remote_enable = 1
