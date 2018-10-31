@@ -16,7 +16,7 @@ This repository allows the creation of a Docker environment to work locally.
 The `web` container has a mount point used to share source files.
 By default, the `~/www/` directory is mounted from the host. It's possible to change this path by editing the `docker-compose.yml` file.
 
-And the `./web/custom.ini` file is used to customize the PHP configuration during the image build process. 
+And the `./web/x-custom.ini` file is used to customize the PHP configuration during the image build process. 
 
 ### Percona
 The `./mysql/custom.cnf` file is used to customize the MySQL configuration during the image build process.
