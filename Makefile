@@ -36,13 +36,13 @@ cron: ## Configure the crontab file
 		echo $(VERT)crontab file already configured$(NORMAL); \
 	fi
 
-ini: ## Configure the custom.ini file
-	@if [[ ! -f web/custom.ini ]]; then \
-		cp web/custom.ini.dist web/custom.ini; \
-		nano web/custom.ini; \
-		echo $(VERT)custom.ini file configured!$(NORMAL); \
+ini: ## Configure the x-custom.ini file
+	@if [[ ! -f web/x-custom.ini ]]; then \
+		cp web/x-custom.ini.dist web/x-custom.ini; \
+		nano web/x-custom.ini; \
+		echo $(VERT)x-custom.ini file configured!$(NORMAL); \
 	else \
-		echo $(VERT)custom.ini file already configured$(NORMAL); \
+		echo $(VERT)x-custom.ini file already configured$(NORMAL); \
 	fi
 
 env: ## Configure the env file
