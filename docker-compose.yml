@@ -14,12 +14,12 @@ services:
     tty: true
 
   mysql:
-    build: mysql
+    image: mysql:5.7
     env_file: docker-env
     ports:
-      - "3306:3306"
+      - 3306:3306
     volumes:
-      - "mysql:/var/lib/mysql"
+      - mysql:/var/lib/mysql
     tty: true
 
   redis:
