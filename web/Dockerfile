@@ -48,6 +48,13 @@ RUN apt-get update && \
     perl -pi -e "s/mailhub=mail/mailhub=maildev/" /etc/ssmtp/ssmtp.conf && \
     usermod -u 1000 www-data
 
+# Install GMP
+RUN apt-get update -y && \
+	apt-get install -y libgmp-dev re2c libmhash-dev libmcrypt-dev file && \
+	ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/local/include/ && \
+	docker-php-ext-configure gmp && \
+	docker-php-ext-install gmp
+
 # Install GnuPG
 RUN pecl install gnupg && \
     docker-php-ext-enable gnupg
