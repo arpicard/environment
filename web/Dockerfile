@@ -29,7 +29,8 @@ RUN apt-get update && \
         nano \
         openssl \
         ssh-client \
-        ssmtp && \
+        ssmtp \
+        wget && \
     docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ && \
     curl -sS -o /tmp/icu.tar.gz -L http://download.icu-project.org/files/icu4c/62.1/icu4c-62_1-src.tgz && tar -zxf /tmp/icu.tar.gz -C /tmp && cd /tmp/icu/source && ./configure --prefix=/usr/local && make && make install && \
     docker-php-ext-install -j$(nproc) \
@@ -71,6 +72,9 @@ RUN pecl install xdebug && \
 ADD http://get.sensiolabs.org/php-cs-fixer.phar /usr/local/bin/php-cs-fixer
 RUN chmod a+x /usr/local/bin/php-cs-fixer
 
+RUN wget https://github.com/umpirsky/Symfony-Upgrade-Fixer/releases/download/v0.1.6/symfony-upgrade-fixer.phar -O /usr/local/bin/symfony-upgrade-fixer && \
+	chmod a+x /usr/local/bin/symfony-upgrade-fixer
+
 # Install Composer globally
 RUN curl -sS https://getcomposer.org/installer | php && \
     mv composer.phar /usr/local/bin/composer
@@ -92,7 +96,7 @@ RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf && \
 # Install yarn
 RUN curl -sS https://deb.nodesource.com/setup_10.x | bash && \
     apt-get install -y --no-install-recommends nodejs && \
-    npm install -g grunt-cli && \
+    npm install -g grunt-cli gulp-cli && \
 	curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
     echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
     apt-get update && apt-get install -y yarn && \
