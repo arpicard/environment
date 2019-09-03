@@ -25,11 +25,9 @@ RUN apt-get update && \
         libxml2-utils \
         libxslt-dev \
         mailutils \
-        mysql-client \
         nano \
         openssl \
         ssh-client \
-        ssmtp \
         wget && \
     docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ && \
     curl -sS -o /tmp/icu.tar.gz -L http://download.icu-project.org/files/icu4c/62.1/icu4c-62_1-src.tgz && tar -zxf /tmp/icu.tar.gz -C /tmp && cd /tmp/icu/source && ./configure --prefix=/usr/local && make && make install && \
